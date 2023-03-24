@@ -101,7 +101,7 @@ public class ConsoleProgram {
 			} else if (c == '\t')
 				x += 4;
 			else
-				Drawer.drawChar(x++, y, c, consoleColor);
+				Drawer.draw(x++, y, c, consoleColor);
 
 			if (x >= Display.getWidth()) {
 				x = 0;
@@ -111,7 +111,7 @@ public class ConsoleProgram {
 
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);
-			Drawer.drawChar(x++, y, c, consoleColor);
+			Drawer.draw(x++, y, c, consoleColor);
 
 			if (x >= Display.getWidth()) {
 				x = 0;
