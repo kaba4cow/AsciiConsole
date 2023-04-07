@@ -159,7 +159,7 @@ public abstract class Console {
 		String name = getCommandName(line);
 		int numParameters = getCommandParameters(name, line);
 
-		Command command = commands.get(name);
+		Command command = commands.get(name.toLowerCase());
 
 		if (line.isEmpty())
 			output.append('\n');
