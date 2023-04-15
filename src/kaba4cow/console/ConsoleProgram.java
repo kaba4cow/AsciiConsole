@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import kaba4cow.ascii.core.Engine;
 import kaba4cow.ascii.core.Input;
 import kaba4cow.ascii.core.Window;
-import kaba4cow.ascii.drawing.drawers.Drawer;
-import kaba4cow.ascii.drawing.glyphs.Glyphs;
+import kaba4cow.ascii.drawing.Drawer;
+import kaba4cow.ascii.drawing.Glyphs;
 import kaba4cow.ascii.toolbox.Colors;
 
 public class ConsoleProgram {
@@ -87,7 +87,6 @@ public class ConsoleProgram {
 
 	public void renderConsole() {
 		Window.setBackground(' ', consoleColor);
-		Window.setDrawCursor(false);
 
 		int x = 0;
 		int y = -scroll;
