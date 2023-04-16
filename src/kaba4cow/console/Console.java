@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.prefs.Preferences;
 
+import kaba4cow.ascii.core.Renderer;
+
 public abstract class Console {
 
 	private static LinkedHashMap<String, Command> commands = new LinkedHashMap<>();
@@ -14,6 +16,7 @@ public abstract class Console {
 	private static Preferences preferences;
 	private static int backgroundColor;
 	private static int foregroundColor;
+	private static int fontIndex;
 	private static int windowWidth;
 	private static int windowHeight;
 	private static File directory;
@@ -24,8 +27,9 @@ public abstract class Console {
 		preferences = Preferences.userNodeForPackage(c);
 		backgroundColor = preferences.getInt("color-b", 0x000);
 		foregroundColor = preferences.getInt("color-f", 0xFFF);
-		windowWidth = preferences.getInt("width", -1);
-		windowHeight = preferences.getInt("height", -1);
+		fontIndex = preferences.getInt("font", 0);
+		windowWidth = preferences.getInt("width", 0);
+		windowHeight = preferences.getInt("height", 0);
 		directory = new File(preferences.get("home", System.getProperty("user.dir")));
 		if (!directory.exists() || directory.isFile())
 			directory = new File(System.getProperty("user.dir"));
@@ -105,11 +109,14 @@ public abstract class Console {
 			}
 		};
 
-		new Command("resize", "[width] [height]", "Resizes window (-1 for fullscreen)") {
+		new Command("resize", "[width] [height]", "Resizes window") {
 			@Override
 			public void execute(String[] parameters, int numParameters, StringBuilder output) {
-				if (invalidParameters(numParameters, 2, output))
+				if (invalidParameters(numParameters, 2, output)) {
+					windowWidth = 0;
+					windowHeight = 0;
 					return;
+				}
 				int w, h;
 				try {
 					w = Integer.parseInt(parameters[0]);
@@ -146,6 +153,28 @@ public abstract class Console {
 				} catch (NumberFormatException e) {
 					invalidParameters(output);
 				}
+			}
+		};
+
+		new Command("font", "[index]", "Sets console font") {
+			@Override
+			public void execute(String[] parameters, int numParameters, StringBuilder output) {
+				if (invalidParameters(numParameters, 1, output))
+					return;
+				try {
+					fontIndex = Integer.parseInt(parameters[0]);
+				} catch (NumberFormatException e) {
+					invalidParameters(output);
+				}
+			}
+		};
+
+		new Command("fonts", "", "Prints available fonts") {
+			@Override
+			public void execute(String[] parameters, int numParameters, StringBuilder output) {
+				String[] fonts = Renderer.getFonts();
+				for (int i = 0; i < fonts.length; i++)
+					output.append(i + " : " + fonts[i] + "\n");
 			}
 		};
 	}
@@ -248,6 +277,10 @@ public abstract class Console {
 		return foregroundColor;
 	}
 
+	public static int getFontIndex() {
+		return fontIndex;
+	}
+
 	public static int getWindowWidth() {
 		return windowWidth;
 	}
@@ -257,10 +290,11 @@ public abstract class Console {
 	}
 
 	private static void savePreferences() {
-		preferences.put("color-b", Integer.toString(backgroundColor));
-		preferences.put("color-f", Integer.toString(foregroundColor));
-		preferences.put("width", Integer.toString(windowWidth));
-		preferences.put("height", Integer.toString(windowHeight));
+		preferences.putInt("color-b", backgroundColor);
+		preferences.putInt("color-f", foregroundColor);
+		preferences.putInt("font", fontIndex);
+		preferences.putInt("width", windowWidth);
+		preferences.putInt("height", windowHeight);
 		preferences.put("home", directory.getAbsolutePath());
 	}
 
