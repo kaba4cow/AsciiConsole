@@ -172,9 +172,8 @@ public abstract class Console {
 		new Command("fonts", "", "Prints available fonts") {
 			@Override
 			public void execute(String[] parameters, int numParameters, StringBuilder output) {
-				String[] fonts = Renderer.getFonts();
-				for (int i = 0; i < fonts.length; i++)
-					output.append(i + " : " + fonts[i] + "\n");
+				for (int font = 0; font < Renderer.getFontCount(); font++)
+					output.append(String.format("%2s: %s\n", font, Renderer.getFontName(font)));
 			}
 		};
 	}

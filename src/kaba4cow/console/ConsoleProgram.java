@@ -51,7 +51,6 @@ public class ConsoleProgram {
 		}
 
 		consoleColor = Colors.combine(Console.getBackgroundColor(), Console.getForegroundColor());
-		Window.setBackground(Glyphs.SPACE, consoleColor);
 	}
 
 	public void updateConsole(String fileName) {
@@ -88,7 +87,7 @@ public class ConsoleProgram {
 
 	public void renderConsole() {
 		Renderer.setFont(Console.getFontIndex());
-		Window.setBackground(' ', consoleColor);
+		Window.setBackground(Glyphs.SPACE, consoleColor);
 
 		int x = 0;
 		int y = -scroll;
