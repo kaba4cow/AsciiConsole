@@ -7,7 +7,6 @@ import kaba4cow.ascii.core.Input;
 import kaba4cow.ascii.core.Renderer;
 import kaba4cow.ascii.core.Window;
 import kaba4cow.ascii.drawing.Drawer;
-import kaba4cow.ascii.drawing.Glyphs;
 import kaba4cow.ascii.toolbox.Colors;
 
 public class ConsoleProgram {
@@ -87,7 +86,7 @@ public class ConsoleProgram {
 
 	public void renderConsole() {
 		Renderer.setFont(Console.getFontIndex());
-		Window.setBackground(Glyphs.SPACE, consoleColor);
+		Window.setBackground(consoleColor);
 
 		int x = 0;
 		int y = -scroll;
